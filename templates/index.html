@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{mac_addr}}</title>
+    <!-- <script src="include/mobilecheck.js"></script> -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'include/knob/knobKnob.css') }}">
+    <script src="{{ url_for('static', filename = 'include/knob/transform.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'include/knob/knobKnob.jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'include/csmapi_modified.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'include/RemoteControl.js') }}"></script>
+    
+    <!-- switch -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'bootstrap/css/bootstrap-theme.min.css') }}" >
+    <script src="{{ url_for('static', filename = 'bootstrap/js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'bootstrap/css/bootstrap-toggle.min.css') }}">
+    <script src="{{ url_for('static', filename = 'bootstrap/js/bootstrap-toggle.min.js') }}"></script>    
+
+    <script>
+      set_device_id('{{ mac_addr }}', {{count[4]}});
+      check_registerion_state('{{ mac_addr }}');
+      output_dfs('{{ mac_addr }}');     
+      output_selected_dfs('{{ mac_addr }}');
+    </script>   
+
+   </head>
+  <body>
+<TD style="FONT-SIZE: 13px; COLOR:#000000; LINE-HIGHT:50px; FONT-FAMILY:Arial,Helvetica,sans-serif">
+    {% for i in range(count[2]) %}
+    <legend class="text-primary">Keypad{{i+1}}</legend>
+    <button type="button" class="btn btn-success" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[1])">1</button>
+    <button type="button" class="btn btn-link" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[2])">2</button>
+    <button type="button" class="btn btn-success" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[3])">3</button> <br>
+    <button type="button" class="btn btn-link" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[4])">4</button>
+    <button type="button" class="btn btn-success" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[5])">5</button>
+    <button type="button" class="btn btn-link" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[6])">6</button> <br>
+    <button type="button" class="btn btn-success" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[7])">7</button>
+    <button type="button" class="btn btn-link" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[8])">8</button>
+    <button type="button" class="btn btn-success" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[9])">9</button> <br>
+    <button type="button" class="btn btn-link" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[10])">*</button>
+    <button type="button" class="btn btn-success" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[0])">0</button>
+    <button type="button" class="btn btn-link" onclick="csmapi.push('{{ mac_addr }}','','Keypad{{i+1}}',[11)">#</button>  <br> <br>
+    {% endfor %}
+ 
+    {% if count[0]==0 %} 
+    <legend></legend>
+    {% else %}
+    <legend class="text-primary">Button</legend>
+    {% endif %}
+    
+    {% for i in range(count[0]) %}
+    <button type="button" class="btn btn-info" onclick="csmapi.push('{{ mac_addr }}','','Button{{i+1}}',[1])" style="width:200px;" >Button{{i+1}}</button> <br>
+    {% endfor %}
+    <br>
+
+    <br>
+    {% for i in range(count[3]) %}
+    <legend class="text-primary">Knob{{i+1}}</legend>
+    <div style='margin-top:-33px; margin-bottom:15px;'  type='text' role='Knob{{i+1}}' class='knob-container'></div>
+    {% endfor %}
+    <br>
+
+    {% for i in range(count[1]) %}
+    <legend class="text-primary">Color-I{{i+1}}</legend>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[255,0,0])" style="width:100px; height:100px; background-color:#FF0000"></button>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[255,85,17])" style="width:100px; height:100px; background-color:#FF5511 "></button>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[255,255,0])" style="width:100px; height:100px; background-color:#FFFF00"></button> <br>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[0,255,0])" style="width:100px; height:100px; background-color:#00FF00"></button>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[0,0,255])" style="width:100px; height:100px; background-color:#0000FF"></button>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[102,0,255])" style="width:100px; height:100px; background-color:#6600FF"></button> <br>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[255,0,255])" style="width:100px; height:100px; background-color:#FF00FF"></button>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[255,255,255])" style="width:100px; height:100px; background-color:#FFFFFF"></button>
+    <button type="button" class="btn btn-outline-success" onclick="csmapi.push('{{ mac_addr }}','','Color-I{{i+1}}',[0,0,0])" style="width:100px; height:100px; background-color:#000000"></button> <br><br>
+    {% endfor %}
+    <br>
+
+    {% for i in range(count[4]) %}
+    <div class="checkbox">
+        <label>
+	    <input  type="checkbox" data-toggle="toggle" id="Switch{{i+1}}">
+	    <span class = "Switch{{i+1}} h2"> Switch{{i+1}} </span>
+        </label>
+    </div>
+    {% endfor %}
+
+  </body>
+</html>
